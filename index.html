@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary to Text Utility v1.4</title>
+    <style>
+        :root {
+            --bg-gray: #f4f4f9;
+            --border-gray: #ced4da;
+            --text-dark: #333;
+            --accent-blue: #007bff;
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 1.5s ease;
+            overflow: hidden;
+        }
+
+        #tool-container {
+            background: white;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-gray);
+            z-index: 5;
+        }
+
+        h2 { color: var(--text-dark); font-size: 1.2rem; margin-top: 0; border-bottom: 2px solid var(--bg-gray); padding-bottom: 10px; }
+        label { display: block; margin: 15px 0 5px; font-size: 0.9rem; color: #666; font-weight: bold; }
+        
+        textarea {
+            width: 100%;
+            height: 80px;
+            border: 1px solid var(--border-gray);
+            border-radius: 4px;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: monospace;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        #output-box {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+            min-height: 40px;
+            word-break: break-all;
+            font-family: monospace;
+        }
+
+        /* THE REVEAL: Romantic Styles */
+        #secret-letter {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #fff0f3;
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1.5s forwards;
+        }
+
+        .envelope {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(255, 75, 110, 0.2);
+            max-width: 450px;
+            text-align: center;
+            border: 2px solid #ffb3c1;
+            position: relative;
+        }
+
+        .heart-icon { 
+            color: #ff4d6d; 
+            font-size: 50px; 
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .love-text { color: #590d22; line-height: 1.8; font-size: 1.15rem; }
+        
+        h3 { color: #ff4d6d; margin-bottom: 20px; font-size: 1.6rem; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="tool-container">
+        <h2>Binary String Decoder v1.4</h2>
+        <p style="font-size: 0.8rem; color: #888;">Enter 8-bit binary sequences to convert to ASCII text.</p>
+        
+        <label>Input Binary Data:</label>
+        <textarea id="binaryInput" placeholder="01001000 01100101..."></textarea>
+        
+        <button onclick="convertBinary()">Decode to Text</button>
+        
+        <label>Text Output:</label>
+        <div id="output-box"></div>
+    </div>
+
+    <div id="secret-letter">
+        <div class="envelope">
+            <div class="heart-icon">❤</div>
+            <div class="love-text">
+                <h3>Happy Valentine's Day, my babbyyyyyyy!</h3>
+                <p>There are not enough words in the world to tell you how much I love you. You make my world make sense.</p>
+                <p><b>I love you so much, baby!</b></p>
+                <p style="font-style: italic; font-size: 0.9rem; margin-top: 30px; border-top: 1px solid #ffb3c1; padding-top: 15px;">
+                    From your baby
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convertBinary() {
+            const input = document.getElementById('binaryInput').value.trim();
+            const outputBox = document.getElementById('output-box');
+            
+            try {
+                // Split by space and convert
+                let text = input.split(' ').map(bin => {
+                    if(bin.length > 0) return String.fromCharCode(parseInt(bin, 2));
+                    return "";
+                }).join('');
+                
+                outputBox.innerText = text;
+
+                // Check for "I love you" (case insensitive, ignoring spaces)
+                if (text.toLowerCase().replace(/\s/g, '') === "iloveyou") {
+                    setTimeout(() => {
+                        document.getElementById('secret-letter').style.display = 'flex';
+                        document.body.style.backgroundColor = "#fff0f3";
+                    }, 600);
+                }
+            } catch (e) {
+                outputBox.innerText = "Error: Invalid binary format.";
+            }
+        }
+    </script>
+</body>
+</html>
